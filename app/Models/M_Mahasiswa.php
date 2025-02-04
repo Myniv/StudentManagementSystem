@@ -6,9 +6,18 @@ use App\Database\Mahasiswa;
 class M_Mahasiswa
 {
     private $students;
+    private $session;
+
     public function __construct()
     {
-        $this->students[] = new Mahasiswa("2011500457", "Mulyana", "Teknik Informatika");
+        // $this->students[] = new Mahasiswa("2011500457", "Mulyana", "Teknik Informatika");
+        // $this->students[] = new Mahasiswa("2011501810", "Test", "Test");
+        $this->session = session(); // session
+        $this->students = $this->session->get('students') ?? [];
+    }
+    private function saveData()
+    {
+        $this->session->set('students', $this->students); // Save students to session
     }
 
     public function getAllStudents()
@@ -34,6 +43,8 @@ class M_Mahasiswa
     public function addStudent(Mahasiswa $mahasiswa)
     {
         $this->students[] = $mahasiswa;
+        $this->saveData();
+
     }
 
     public function updateStudent(Mahasiswa $mahasiswa)
@@ -41,14 +52,16 @@ class M_Mahasiswa
         foreach ($this->students as $key => $student) {
             if ($student->getNim() == $mahasiswa->getNim()) {
                 $this->students[$key] = $mahasiswa;
+                $this->saveData();
             }
         }
     }
-    public function deleteStudent(Mahasiswa $mahasiswa)
+    public function deleteStudent($nim)
     {
         foreach ($this->students as $key => $student) {
-            if ($student->getNim() == $mahasiswa->getNim()) {
+            if ($student->getNim() == $nim) {
                 unset($this->students[$key]);
+                $this->saveData();
             }
         }
     }
