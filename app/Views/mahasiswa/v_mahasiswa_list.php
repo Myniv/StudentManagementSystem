@@ -13,9 +13,14 @@
             <td><?= $mahasiswa->getNama(); ?></td>
             <td><?= $mahasiswa->getJurusan(); ?></td>
             <td>
-                <a href="/mahasiswa/detail/<?= $mahasiswa->getNim(); ?>">Detail</a> |
-                <a href="/mahasiswa/update/<?= $mahasiswa->getNim(); ?>">Edit</a> |
-                <a href="/mahasiswa/delete/<?= $mahasiswa->getNim(); ?>">Hapus</a>
+                <button onclick="location.href='/mahasiswa/detail/<?= $mahasiswa->getNim(); ?>'">Detail</button>
+                <button onclick="location.href='/mahasiswa/update/<?= $mahasiswa->getNim(); ?>'">Edit</button>
+                <form action="/mahasiswa/delete/<?= $mahasiswa->getNim(); ?>" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?');">
+                        Hapus
+                    </button>
+                </form>
             </td>
         </tr>
     <?php endforeach; ?>
