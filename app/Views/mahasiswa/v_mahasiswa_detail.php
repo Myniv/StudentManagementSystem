@@ -7,3 +7,5 @@
 <p>
     <?= $mahasiswa->getJurusan(); ?>
 </p>
+
+<a href="/mahasiswa">Kembali</a>
