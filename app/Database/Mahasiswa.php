@@ -1,4 +1,4 @@
-<?
+<?php
 namespace App\Database;
 
 class Mahasiswa
