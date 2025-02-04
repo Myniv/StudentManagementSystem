@@ -13,6 +13,7 @@ class MahasiswaController extends BaseController
     {
         $this->mahasiswaModel = new M_Mahasiswa();
     }
+
     public function index()
     {
         $data = $this->mahasiswaModel->getAllStudents();
@@ -21,19 +22,23 @@ class MahasiswaController extends BaseController
 
     public function detail($nim)
     {
-        $data = $this->mahasiswaModel->getStudentByNIM($nim);
-        return view('mahasiswa/v_mahasiswa_detail', ['mahasiswa' => $data]);
+        $data['mahasiswa'] = $this->mahasiswaModel->getStudentByNIM($nim);
+        return view('mahasiswa/v_mahasiswa_detail', $data);
     }
 
     public function create()
     {
-        $mahasiswa = new Mahasiswa($this->request->getPost());
+        $nim = $this->request->getPost("nim");
+        $name = $this->request->getPost("nama");
+        $jurusan = $this->request->getPost("jurusan");
+
+        $mahasiswa = new Mahasiswa($nim, $name, $jurusan);
         $this->mahasiswaModel->addStudent($mahasiswa);
         return redirect()->to("/mahasiswa");
     }
     public function goCreate()
     {
-        return view('mahasiswa/create');
+        return view('mahasiswa/v_mahasiswa_form');
     }
 
     public function update()
@@ -50,11 +55,12 @@ class MahasiswaController extends BaseController
     public function goUpdate($nim)
     {
         $data['mahasiswa'] = $this->mahasiswaModel->getStudentByNIM($nim);
-        return view('mahasiswa/update', $data);
+        return view('mahasiswa/v_mahasiswa_form', $data);
     }
 
     public function delete($nim)
     {
+        // $data = $this->mahasiswaModel->getStudentByNIM(nim: $nim);
         $this->mahasiswaModel->deleteStudent($nim);
         return redirect()->to("/mahasiswa");
     }
