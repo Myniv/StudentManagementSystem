@@ -7,7 +7,7 @@ class Mahasiswa
     private $nama;
     private $jurusan;
 
-    public function __construct($jurusan, $nama, $nim)
+    public function __construct($nim, $nama, $jurusan)
     {
         $this->nim = $nim;
         $this->nama = $nama;
