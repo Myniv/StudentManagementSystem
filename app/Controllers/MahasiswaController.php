@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Database\Mahasiswa;
+use App\Entities\Mahasiswa;
 use App\Models\M_Mahasiswa;
 
 class MahasiswaController extends BaseController

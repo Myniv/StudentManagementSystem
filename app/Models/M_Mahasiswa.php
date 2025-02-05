@@ -1,7 +1,8 @@
 <?php
 namespace App\Models;
 
-use App\Database\Mahasiswa;
+use App\Entities\Mahasiswa;
+
 
 class M_Mahasiswa
 {
