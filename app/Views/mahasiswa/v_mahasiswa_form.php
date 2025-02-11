@@ -1,8 +1,20 @@
 <h2><?= isset($mahasiswa) ? 'Edit Mahasiswa' : 'Tambah Mahasiswa'; ?></h2>
 
-<form method="post" action="<?= isset($mahasiswa) ? '/mahasiswa/update' : '/mahasiswa/add'; ?>">
-    <input type="hidden" name="nim" value="<?= isset($mahasiswa) ? $mahasiswa->getNim() : ''; ?>">
+<?php if (isset($errors)): ?>
+    <div style="color: red;">
+        <ul>
+            <?php foreach ($errors as $error) { ?>
+                <li><?= esc($error) ?></li>
+            <?php } ?>
+        </ul>
+    </div>
+<?php endif; ?>
 
+<form method="post" action="<?= isset($mahasiswa) ? '/mahasiswa/update' : '/mahasiswa/create'; ?>">
+    <?= csrf_field() ?>
+    <?php if (isset($mahasiswa)) { ?>
+        <input type="hidden" name="_method" value="PUT">
+    <?php } ?>
     <label>NIM:</label>
     <input type="text" name="nim" value="<?= isset($mahasiswa) ? $mahasiswa->getNim() : ''; ?>" <?= isset($mahasiswa) ? 'readonly' : ''; ?> required><br>
 

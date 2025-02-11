@@ -16,6 +16,7 @@
                 <button onclick="location.href='/mahasiswa/detail/<?= $mahasiswa->getNim(); ?>'">Detail</button>
                 <button onclick="location.href='/mahasiswa/update/<?= $mahasiswa->getNim(); ?>'">Edit</button>
                 <form action="/mahasiswa/delete/<?= $mahasiswa->getNim(); ?>" method="post" style="display:inline;">
+                    <?= csrf_field(); ?>
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?');">
                         Hapus

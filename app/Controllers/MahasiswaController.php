@@ -28,13 +28,31 @@ class MahasiswaController extends BaseController
 
     public function create()
     {
-        $nim = $this->request->getPost("nim");
-        $name = $this->request->getPost("nama");
-        $jurusan = $this->request->getPost("jurusan");
+        $type = $this->request->getMethod();
+        if ($type == 'GET') {
+            return view('mahasiswa/v_mahasiswa_form');
+        } else if ($type == 'POST') {
+            $data = [
+                'nim' => $this->request->getPost("nim"),
+                'nama' => $this->request->getPost("nama"),
+                'jurusan' => $this->request->getPost("jurusan")
+            ];
+            $rule = [
+                'nim' => 'required|integer',
+                "nama" => 'required|max_length[255]',
+                'jurusan' => 'required|max_length[255]'
+            ];
+            // $nim = $this->request->getPost("nim");
+            // $name = $this->request->getPost("nama");
+            // $jurusan = $this->request->getPost("jurusan");
 
-        $mahasiswa = new Mahasiswa($nim, $name, $jurusan);
-        $this->mahasiswaModel->addStudent($mahasiswa);
-        return redirect()->to("/mahasiswa");
+            if (!$this->validateData($data, $rule)) {
+                return view('mahasiswa/v_mahasiswa_form', ['errors' => $this->validator->getErrors()]);
+            }
+            $mahasiswa = new Mahasiswa($data['nim'], $data['nama'], $data['jurusan']);
+            $this->mahasiswaModel->addStudent($mahasiswa);
+            return redirect()->to("/mahasiswa");
+        }
     }
     public function goCreate()
     {
@@ -52,7 +70,7 @@ class MahasiswaController extends BaseController
 
         return redirect()->to("/mahasiswa");
     }
-    public function goUpdate($nim)
+    public function getUpdate($nim)
     {
         $data['mahasiswa'] = $this->mahasiswaModel->getStudentByNIM($nim);
         return view('mahasiswa/v_mahasiswa_form', $data);
